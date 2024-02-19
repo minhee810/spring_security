@@ -2,6 +2,7 @@ package com.example.testSecurity.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -32,11 +33,8 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 );
         http
-                .formLogin((auth) -> auth
-                        .loginPage("/login") // 오류 시 자동으로 로그인 페이지로 리다이렉션
-                        .loginProcessingUrl("/loginProc")
-                        .permitAll()
-                ); // form 태그에서 로그인 한 정보를 특정 경로로 전송함. 시큐리티가 받아서 로그인 처리 진행
+                .httpBasic(Customizer.withDefaults()); // basic 방식으로 인증이 진행됨.
+
 
         http
                 .csrf((auth) -> auth.disable());  // form 태그에 같이 보내줘야 하는 csrf token 을 비활성화
